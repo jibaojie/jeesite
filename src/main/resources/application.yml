@@ -1,0 +1,39 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /jeesite/
+
+spring:
+  mvc:
+    static-path-pattern: /**
+    http.multipart:
+      max-request-size: 30MB
+      max-file-size: 30MB
+      resources:
+        static-locations: classpath:/static/, classpath:/META-INF/resources/
+  datasource:
+    url: jdbc:mysql://192.168.16.137:3306/test
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+    init-db: true
+
+    druid.initialSize: 3
+    druid.maxActive: 15
+    druid.minIdle: 2
+    druid.maxWait: 60000
+    druid.timeBetweenEvictionRunsMillis: 60000
+    druid.minEvictableIdleTimeMillis: 300000
+
+logging:
+  file: logs/jeesite.log
+  level:
+    org.springframework: debug
+    com.baojie: debug
+
+
+
+
+
+
+
