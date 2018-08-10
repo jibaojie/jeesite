@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>jeesite</artifactId>
+		<groupId>com.baojie</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.baojie</groupId>
+	<artifactId>jeesite-web</artifactId>
+	<packaging>jar</packaging>
+
+	<name>jeesite-web</name>
+	<description>Spring Boot</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.baojie</groupId>
+			<artifactId>jeesite-util</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.baojie</groupId>
+			<artifactId>jeesite-entity</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.baojie</groupId>
+			<artifactId>jeesite-login</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<!--<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>prod/**</exclude>
+					<exclude>dev/**</exclude>
+				</excludes>
+			</resource>
+			&lt;!&ndash; 根据env部署环境值，把对应环境的配置文件拷贝到classes目录 &ndash;&gt;
+			<resource>
+				<directory>src/main/resources/${env}</directory>
+			</resource>
+		</resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>-->
+
+
+</project>

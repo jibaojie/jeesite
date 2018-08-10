@@ -9,8 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.baojie.jeesite</groupId>
-    <artifactId>entity</artifactId>
+    <groupId>com.baojie</groupId>
+    <artifactId>jeesite-entity</artifactId>
+    <packaging>jar</packaging>
+
 
 
 </project>

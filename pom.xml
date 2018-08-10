@@ -20,15 +20,19 @@
 	<description>jeesite test</description>
 
     <modules>
-        <module>entity</module>
-        <module>util</module>
-        <module>login</module>
+        <module>jeesite-entity</module>
+        <module>jeesite-util</module>
+        <module>jeesite-login</module>
+        <module>jeesite-web</module>
     </modules>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+        <commons-lang3.version>3.5</commons-lang3.version>
+        <commons-io.version>2.5</commons-io.version>
+        <commons-codec.version>1.10</commons-codec.version>
         <mybatis-spring-boot-starter.version>1.3.1</mybatis-spring-boot-starter.version>
 		<mapper-spring-boot-starter.version>1.2.4</mapper-spring-boot-starter.version>
         <pagehelper-spring-boot-starter.version>1.2.3</pagehelper-spring-boot-starter.version>
@@ -49,6 +53,22 @@
             <artifactId>spring-boot-starter-jdbc</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${commons-lang3.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${commons-io.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec.version}</version>
+        </dependency>
 
 		<!--mybatis-->
 		<dependency>
@@ -102,20 +122,29 @@
         </dependency>
         <!--Swagger End-->
 
+        <!-- 实体类添加注解，省去get set方法 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
 	</dependencies>
 
-
-
-
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <compilerVersion>${java.version}</compilerVersion>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>
