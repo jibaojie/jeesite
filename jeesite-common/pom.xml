@@ -10,15 +10,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.baojie</groupId>
-    <artifactId>jeesite-login</artifactId>
+    <artifactId>jeesite-common</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>com.baojie</groupId>
-            <artifactId>jeesite-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
         <dependency>
             <groupId>com.baojie</groupId>
             <artifactId>jeesite-util</artifactId>
@@ -30,24 +24,6 @@
             <artifactId>jeesite-entity</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-ehcache</artifactId>
-        </dependency>
-
     </dependencies>
 
 

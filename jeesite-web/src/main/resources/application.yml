@@ -1,9 +1,12 @@
 server:
-  port: 8080
+  port: 8090
   servlet:
     context-path: /jeesite/
 
+
 spring:
+  application:
+    name: jeesite
   mvc:
     static-path-pattern: /**
     http.multipart:
@@ -24,12 +27,22 @@ spring:
     druid.maxWait: 60000
     druid.timeBetweenEvictionRunsMillis: 60000
     druid.minEvictableIdleTimeMillis: 300000
+  redis:
+    database: 1
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+    timeout: 1000
 
 logging:
   file: logs/jeesite-web.log
   level:
-    org.springframework: error
+    org.springframework: debug
     com.baojie.jeesite: debug
+    org.apache.shiro: error
+    org.quartz: debug
+
+
 
 
 

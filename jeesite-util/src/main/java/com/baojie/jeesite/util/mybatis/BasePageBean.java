@@ -1,4 +1,4 @@
-package com.baojie.jeesite.util.basemybatis;
+package com.baojie.jeesite.util.mybatis;
 
 import java.io.Serializable;
 import java.util.List;

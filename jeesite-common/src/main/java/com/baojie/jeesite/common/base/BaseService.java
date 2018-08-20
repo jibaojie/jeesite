@@ -1,7 +1,11 @@
-package com.baojie.jeesite.util.basemybatis;
+package com.baojie.jeesite.common.base;
 
+import com.baojie.jeesite.util.mybatis.BasePageBean;
+import com.baojie.jeesite.util.mybatis.Query;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import tk.mybatis.mapper.entity.Example;
 
@@ -12,10 +16,12 @@ import java.util.Map;
 
 public abstract class BaseService<M extends MyMapper<T>, T> {
 
+    protected final Logger logger= LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     protected M mapper;
 
-    public int  idelete( T entity) {
+    public int  delete( T entity) {
        return  mapper.deleteByPrimaryKey(entity);
     }
 
@@ -26,7 +32,6 @@ public abstract class BaseService<M extends MyMapper<T>, T> {
     public T selectOne(T entity) {
         return mapper.selectOne(entity);
     }
-
 
     public T selectById(String kid) {
         Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
@@ -41,30 +46,22 @@ public abstract class BaseService<M extends MyMapper<T>, T> {
         return mapper.selectByExample(example).get(0);
     }
 
-
     public List<T> selectList(T entity) {
         return mapper.select(entity);
     }
-
 
     public List<T> selectListAll() {
         return mapper.selectAll();
     }
 
-
     public Long selectCount(T entity) {
         return new Long(mapper.selectCount(entity));
     }
 
-
-
-
-    public void insertSelective(T entity) {
-         mapper.insertSelective(entity);
+    public T insertSelective(T entity) {
+        mapper.insertSelective(entity);
+        return entity;
     }
-
-
-
 
     public void updateById(T entity) {
          mapper.updateByPrimaryKey(entity);
@@ -73,7 +70,6 @@ public abstract class BaseService<M extends MyMapper<T>, T> {
 
     public int  updateSelectiveById(T entity) {
        return   mapper.updateByPrimaryKeySelective(entity);
-
     }
 
     public List<T> selectByExample(Object example) {
@@ -109,7 +105,7 @@ public abstract class BaseService<M extends MyMapper<T>, T> {
      * @param map
      * @return
      */
-    public BasePageBean<T> selectByMap( Map<String, Object> map) {
+    public BasePageBean<T> selectByMap(Map<String, Object> map) {
         Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
         Example example = new Example(clazz);
         Example.Criteria criteria = example.createCriteria();

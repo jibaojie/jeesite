@@ -20,7 +20,7 @@ import java.net.UnknownHostException;
  * @date 2018-07-30
  */
 
-@MapperScan(basePackages = "com.baojie.jeesite.login.dao")
+@MapperScan(basePackages = "com.baojie.jeesite.*.dao")
 @ComponentScan("com.baojie.jeesite")
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class JeeSiteApplication {

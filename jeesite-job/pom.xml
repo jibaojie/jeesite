@@ -9,13 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.baojie</groupId>
-    <artifactId>jeesite-login</artifactId>
+    <artifactId>jeesite-job</artifactId>
+    <packaging>jar</packaging>
 
     <dependencies>
+
         <dependency>
             <groupId>com.baojie</groupId>
-            <artifactId>jeesite-common</artifactId>
+            <artifactId>jeesite-entity</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
@@ -26,26 +27,24 @@
         </dependency>
 
         <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz-jobs</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.baojie</groupId>
             <artifactId>jeesite-entity</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-spring</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.shiro</groupId>
-            <artifactId>shiro-ehcache</artifactId>
+            <groupId>com.baojie</groupId>
+            <artifactId>jeesite-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
     </dependencies>

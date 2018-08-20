@@ -8,6 +8,8 @@ package com.baojie.jeesite.util.spring;
 import org.apache.commons.lang3.Validate;
 import org.springframework.context.ApplicationContext;
 
+import java.lang.reflect.Method;
+
 /**
  * 将ApplicationContext传入
  */
@@ -32,6 +34,38 @@ public class SpringContextHolder {
 
     public static <T> T getBean(String name) {
         return (T) getApplicationContext().getBean(name);
+    }
+
+    public static boolean existBean(String beanName) {
+        return getApplicationContext().containsBean(beanName);
+    }
+
+    /**
+     * 校验Bean是否存在方法
+     * @param beanName
+     * @param methodName
+     * @param parameterTypes
+     * @throws NoSuchMethodException
+     * @throws SecurityException
+     */
+    public static boolean existBeanAndMethod(String beanName, String methodName, Class<?>[] parameterTypes){
+        if(! getApplicationContext().containsBean(beanName)) {
+            return false;
+        }
+
+        Object serviceImpl = SpringContextHolder.getBean(beanName);
+        Method method;
+        try {
+            method = serviceImpl.getClass().getMethod(methodName,parameterTypes);
+            if (method == null) {
+                return false;
+            }
+        } catch (NoSuchMethodException | SecurityException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+
     }
 
     public static void setApplicationContext(ApplicationContext applicationContext) {

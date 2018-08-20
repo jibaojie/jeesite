@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-package com.baojie.jeesite.util.basemybatis;
+package com.baojie.jeesite.common.base;
 
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.MySqlMapper;
@@ -45,7 +45,7 @@ public interface MyMapper<T> extends Mapper<T>, MySqlMapper<T> {
      * @param sql
      * @return
      */
-    public List<Map<String, Object>> selectBySql(String  sql);
+    public List<Map<String, Object>> selectBySql(String sql);
 
     /**
      * 获取id

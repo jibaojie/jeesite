@@ -19,7 +19,7 @@ import tk.mybatis.mapper.code.Style;
  * @Description: 用户实体类
  */
 @ApiModel(value = "UserInfo", description = "用户实体类") 
-@Table(name = "test_jeesite.userinfo")
+@Table(name = "test_jeesite.user_info")
 @NameStyle(Style.normal)
 @Data
 public class UserInfo implements Serializable {
@@ -32,12 +32,16 @@ public class UserInfo implements Serializable {
     
     @Column(name="user_name")
     private String userName;
+
+    private String telephone;
     
     private String password;
     
     private String salt;
     
     private Short state;
+
+    private Short isDel;
     
   
 }

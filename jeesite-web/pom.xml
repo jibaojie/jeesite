@@ -34,6 +34,19 @@
 			<artifactId>jeesite-login</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.baojie</groupId>
+			<artifactId>jeesite-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+        <!-- 不使用定时任务 -->
+		<!--<dependency>
+			<groupId>com.baojie</groupId>
+			<artifactId>jeesite-job</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>-->
 	</dependencies>
 
 	<!--<build>
