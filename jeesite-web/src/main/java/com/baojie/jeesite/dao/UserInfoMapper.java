@@ -1,6 +1,5 @@
 package com.baojie.jeesite.dao;
 
-
 import com.baojie.jeesite.common.base.MyMapper;
 import com.baojie.jeesite.entity.user.UserInfo;
 
