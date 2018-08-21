@@ -20,34 +20,81 @@ import java.util.Map;
  */
 public abstract class BaseService<M extends MyMapper<T>, T> {
 
-    protected final Logger logger= LoggerFactory.getLogger(this.getClass());
+    protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     protected M mapper;
 
-    public int  delete( T entity) {
-       return  mapper.deleteByPrimaryKey(entity);
-    }
-
     public void setMapper(M mapper) {
         this.mapper = mapper;
+    }
+
+    /**
+     * 新增
+     *
+     * @param entity
+     * @return entity
+     */
+    public T insert(T entity) {
+        mapper.insertSelective(entity);
+        return entity;
+    }
+
+    /**
+     * 删除数据，实体中包含主键
+     * 主键不传返回0，删除失败
+     *
+     * @param entity
+     * @return entity
+     */
+    public Integer delete(T entity) {
+        return mapper.deleteByPrimaryKey(entity);
+    }
+
+    /**
+     * 删除数据，逻辑删除传入 del=1 表示数据删除
+     * 主键不传，更新返回0，删除失败
+     *
+     * @param entity
+     * @return entity
+     */
+    public Integer deleteLogical(T entity) {
+        return mapper.updateByPrimaryKeySelective(entity);
+    }
+
+    /**
+     * 修改实体中全部信息，包括属性为null的
+     * 主键不传，返回0，更新失败
+     *
+     * @param entity
+     */
+    public Integer updateById(T entity) {
+        return mapper.updateByPrimaryKey(entity);
+    }
+
+    /**
+     * 修改实体中信息，不包括null属性
+     * 主键不传，返回0， 更新失败
+     *
+     * @param entity
+     * @return
+     */
+    public Integer updateSelectiveById(T entity) {
+        return mapper.updateByPrimaryKeySelective(entity);
     }
 
     public T selectOne(T entity) {
         return mapper.selectOne(entity);
     }
 
-    public T selectById(String kid) {
-        Class<T> clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-        Example example = new Example(clazz);
-        Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("kid", kid);
-        criteria.andEqualTo("isDel", 0);
-        List<T> l=mapper.selectByExample(example);
-        if(l.size()==0) {
-            return null;
-        }
-        return mapper.selectByExample(example).get(0);
+    /**
+     * 根据主键查询
+     *
+     * @param t
+     * @return
+     */
+    public T selectById(T t) {
+        return  mapper.selectByPrimaryKey(t);
     }
 
     public List<T> selectList(T entity) {
@@ -60,20 +107,6 @@ public abstract class BaseService<M extends MyMapper<T>, T> {
 
     public Long selectCount(T entity) {
         return new Long(mapper.selectCount(entity));
-    }
-
-    public T insertSelective(T entity) {
-        mapper.insertSelective(entity);
-        return entity;
-    }
-
-    public void updateById(T entity) {
-         mapper.updateByPrimaryKey(entity);
-    }
-
-
-    public int  updateSelectiveById(T entity) {
-       return   mapper.updateByPrimaryKeySelective(entity);
     }
 
     public List<T> selectByExample(Object example) {
@@ -93,7 +126,7 @@ public abstract class BaseService<M extends MyMapper<T>, T> {
         }
         Page<Object> result = PageHelper.startPage(query.getPage(), query.getLimit()).setOrderBy("addDate desc");
         List<T> list = mapper.selectByExample(example);
-        return new BasePageBean<T>(result.getTotal(), list) ;
+        return new BasePageBean<T>(result.getTotal(), list);
     }
 
     /**
@@ -106,6 +139,7 @@ public abstract class BaseService<M extends MyMapper<T>, T> {
      * 5，如果查询条件是 >= ,则传递条件参数加_gtoreq
      * 6，如果查询条件是 < ,则传递条件参数加_lt
      * 7，如果查询条件是 <= ,则传递条件参数加_ltoreq
+     *
      * @param map
      * @return
      */
@@ -116,40 +150,47 @@ public abstract class BaseService<M extends MyMapper<T>, T> {
         Query query = new Query(map);
         for (Map.Entry<String, Object> entry : query.entrySet()) {
             String key = entry.getKey();
-            if (key.indexOf("_") > 0){
+            if (key.indexOf("_") > 0) {
                 String paramate = key.split("_")[1];
-                switch (paramate){
+                switch (paramate) {
                     case "eq":
-                        criteria.andEqualTo(entry.getKey(), entry.getValue().toString());   break;
+                        criteria.andEqualTo(entry.getKey(), entry.getValue().toString());
+                        break;
                     case "like":
-                        criteria.andLike(entry.getKey(), "%" + entry.getValue().toString() + "%");  break;
+                        criteria.andLike(entry.getKey(), "%" + entry.getValue().toString() + "%");
+                        break;
                     case "or":
 //                        Example.Criteria criteria2 = example.createCriteria();
 //                        example.or(criteria2);
                         break;
                     case "gt":
-                        criteria.andGreaterThan(entry.getKey(), entry.getValue().toString());   break;
+                        criteria.andGreaterThan(entry.getKey(), entry.getValue().toString());
+                        break;
                     case "gtoreq":
-                        criteria.andGreaterThanOrEqualTo(entry.getKey(), entry.getValue().toString());   break;
+                        criteria.andGreaterThanOrEqualTo(entry.getKey(), entry.getValue().toString());
+                        break;
                     case "lt":
-                        criteria.andLessThan(entry.getKey(), entry.getValue().toString());   break;
+                        criteria.andLessThan(entry.getKey(), entry.getValue().toString());
+                        break;
                     case "ltoreq":
-                        criteria.andLessThanOrEqualTo(entry.getKey(), entry.getValue().toString());   break;
-                    default:    break;
+                        criteria.andLessThanOrEqualTo(entry.getKey(), entry.getValue().toString());
+                        break;
+                    default:
+                        break;
                 }
-            }else {
+            } else {
                 criteria.andEqualTo(entry.getKey(), entry.getValue().toString());
             }
         }
         return getResult(example, map);
     }
 
-    public BasePageBean<T> getResult(Example example, Map<String, Object> map){
+    public BasePageBean<T> getResult(Example example, Map<String, Object> map) {
         List<T> list = null;
         Long count = 0L;
-        if(map.get("page") != null && map.get("limit") != null){
-            int page =  Integer.parseInt((String) map.get("page"));
-            int limit =  Integer.parseInt((String) map.get("limit"));
+        if (map.get("page") != null && map.get("limit") != null) {
+            int page = Integer.parseInt((String) map.get("page"));
+            int limit = Integer.parseInt((String) map.get("limit"));
             Page<Object> result = PageHelper.startPage(page, limit);
             list = mapper.selectByExample(example);
             count = result.getTotal();
@@ -160,12 +201,12 @@ public abstract class BaseService<M extends MyMapper<T>, T> {
         return new BasePageBean<T>(count, list);
     }
 
-    public List<Map<String, Object>> selectBySql(String sql){
+    public List<Map<String, Object>> selectBySql(String sql) {
         return mapper.selectBySql(sql);
     }
 
     public Integer getNextKey(String key) {
-        return  mapper.getNextKey(key);
+        return mapper.getNextKey(key);
     }
 
 }

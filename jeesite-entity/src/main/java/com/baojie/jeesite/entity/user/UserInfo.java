@@ -6,7 +6,9 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.persistence.Table;
 import javax.persistence.Id;
 import java.io.Serializable;
+import java.sql.Timestamp;
 import javax.persistence.Column;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 import tk.mybatis.mapper.annotation.NameStyle;
@@ -19,7 +21,7 @@ import tk.mybatis.mapper.code.Style;
  * @Description: 用户实体类
  */
 @ApiModel(value = "UserInfo", description = "用户实体类") 
-@Table(name = "test_jeesite.user_info")
+@Table(name = "user_info")
 @NameStyle(Style.normal)
 @Data
 public class UserInfo implements Serializable {
@@ -28,6 +30,7 @@ public class UserInfo implements Serializable {
     
     @Id
     @Column(name="user_id")
+    @NotNull
     private Integer userId;
     
     @Column(name="user_name")
@@ -41,7 +44,17 @@ public class UserInfo implements Serializable {
     
     private Short state;
 
-    private Short isDel;
+    @Column(name="is_del")
+    private Short del;
+
+    @Column(name="del_date")
+    private Timestamp delDate;
+
+    @Column(name="del_user_id")
+    private Integer delUserId;
+
+    @Column(name="del_user_name")
+    private String delUserName;
     
   
 }

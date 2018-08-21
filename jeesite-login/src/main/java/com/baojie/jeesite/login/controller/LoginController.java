@@ -95,14 +95,12 @@ public class LoginController {
         } catch (AuthenticationException e) {
             // 记录日志，有未处理的验证失败
             logger.error(e.getMessage(), e);
-            return Result.error(e.getMessage());
+            return Result.error("登录出错");
         }catch (Exception e) {
             logger.error(e.getMessage(), e);
             return Result.error(e.getMessage());
         }
         ShiroUser shiroUser = (ShiroUser) subject.getPrincipal();
-        //记录登录日志
-//        LogManager.me().executeLog(LogTaskFactory.loginLog(shiroUser.getUserId(), host));
 
         return Result.success();
     }

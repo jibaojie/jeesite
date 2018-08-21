@@ -44,7 +44,7 @@ public class LogTaskFactory {
                     loginLog.setLogName("");
                     loginLog.setIp(ip);
                     loginLog.setMessage("");
-                    loginLogService.insertSelective(loginLog);
+                    loginLogService.insert(loginLog);
                 } catch (Exception e) {
                     logger.error("创建登录日志异常!", e);
                 }
@@ -69,7 +69,7 @@ public class LogTaskFactory {
                 loginLog.setIp(ip);
                 loginLog.setMessage("");
                 try {
-                    loginLogService.insertSelective(loginLog);
+                    loginLogService.insert(loginLog);
                 } catch (Exception e) {
                     logger.error("创建退出日志异常!", e);
                 }
@@ -102,7 +102,7 @@ public class LogTaskFactory {
                 operationLog.setMethod(methodName);
                 operationLog.setMessage(msg);
                 try {
-                    operationLogService.insertSelective(operationLog);
+                    operationLogService.insert(operationLog);
                 } catch (Exception e) {
                     logger.error("创建业务日志异常!", e);
                 }

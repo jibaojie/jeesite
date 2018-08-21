@@ -38,7 +38,7 @@ public class GlobalConfig {
     /**
      * session失效时间（默认为12h 单位：m秒）
      */
-    public static final Integer SESSION_INVALI_DATETIME = 10 * 1000;
+    public static final Integer SESSION_INVALI_DATETIME = 24 * 60 * 60 * 1000;
 
     /**
      * Cookie失效时间

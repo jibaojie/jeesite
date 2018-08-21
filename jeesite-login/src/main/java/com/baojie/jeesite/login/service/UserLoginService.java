@@ -26,7 +26,7 @@ public class UserLoginService extends BaseService<UserLoginMapper, UserInfo> {
     public UserInfo getUserByAccount(String account) {
         Example example = new Example(UserInfo.class);
         Example.Criteria criteria = example.createCriteria();
-        criteria.andEqualTo("isDel", 0);
+        criteria.andEqualTo("del", 0);
 //        criteria.andCondition("user_id = " + account + " OR telephone = " + account );
         criteria.andEqualTo("telephone", account);
         List<UserInfo> list = mapper.selectByExample(example);
