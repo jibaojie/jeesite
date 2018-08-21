@@ -23,3 +23,8 @@
 /dist/
 /nbdist/
 /.nb-gradle/
+
+### log文件 ###
+/logs/
+*.log
+*.gz
