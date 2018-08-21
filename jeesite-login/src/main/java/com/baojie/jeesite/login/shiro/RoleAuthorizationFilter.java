@@ -45,7 +45,14 @@ public class RoleAuthorizationFilter extends AuthorizationFilter {
 //		}
         return false;
     }
-    //isAccessAllowed 返回false时调用
+
+    /**
+     * isAccessAllowed 返回false时调用
+     * @param request
+     * @param response
+     * @return
+     * @throws IOException
+     */
     @Override
     protected boolean onAccessDenied(ServletRequest request, ServletResponse response) throws IOException {
 

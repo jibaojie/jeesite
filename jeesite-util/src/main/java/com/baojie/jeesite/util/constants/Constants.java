@@ -11,8 +11,8 @@ import java.util.Map;
  */
 public interface Constants {
 
-    String Exception_Head = "OH,MY GOD! SOME ERRORS OCCURED! AS FOLLOWS :";
-//    Map<Class<?>, CacheKey> cacheKeyMap = InstanceUtil.newHashMap();
+    String EXCEPTION_HEAD = "OH,MY GOD! SOME ERRORS OCCURED! AS FOLLOWS :";
+/**   Map<Class<?>, CacheKey> cacheKeyMap = InstanceUtil.newHashMap();*/
     String OPERATION_NAME = "OPERATION_NAME";
     String USERLANGUAGE = "userLanguage";
     String WEBTHEME = "webTheme";

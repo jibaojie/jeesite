@@ -121,22 +121,13 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
         return null;
     }
     /**
-     * 设定密码校验的Hash算法与迭代次数
-     */
-//    @PostConstruct
-//    public void initCredentialsMatcher() {
-////        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher(Md5Hash.ALGORITHM_NAME);
-////        matcher.setHashIterations(HASH_INTERATIONS);
-//        setCredentialsMatcher(new CustomCredentialsMatcher());
-//    }
-    /**
      * 设置认证加密方式
      */
     @Override
     public void setCredentialsMatcher(CredentialsMatcher credentialsMatcher) {
         HashedCredentialsMatcher md5CredentialsMatcher = new HashedCredentialsMatcher();
-        md5CredentialsMatcher.setHashAlgorithmName(GlobalConfig.hashAlgorithmName);
-        md5CredentialsMatcher.setHashIterations(GlobalConfig.hashIterations);
+        md5CredentialsMatcher.setHashAlgorithmName(GlobalConfig.HASH_ALGORITHM_NAME);
+        md5CredentialsMatcher.setHashIterations(GlobalConfig.HASH_ITERATIONS);
         super.setCredentialsMatcher(md5CredentialsMatcher);
     }
 

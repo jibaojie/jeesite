@@ -28,6 +28,9 @@ import java.util.Map;
 @Transactional(rollbackFor=Exception.class)
 public class QrtzJobDetailsService extends BaseService<QrtzJobDetailsMapper, QrtzJobDetails>{
 
+    @Autowired
+    private QrtzJobDetailsMapper qrtzJobDetailsMapper;
+
 	/** jobName 前缀*/
 	private static final String JOB_NAME_PREFIX = "jobName.";
 	/** triggerName 前缀*/
@@ -67,7 +70,7 @@ public class QrtzJobDetailsService extends BaseService<QrtzJobDetailsMapper, Qrt
 	}
 	
 	public Integer updateQrtzJobDetails(QrtzJobDetails qrtzJobDetails) throws Exception {
-		Map<String, Object> resultMap = new HashMap<>();
+		Map<String, Object> resultMap = new HashMap<>(16);
 		JobKey jobKey = JobKey.jobKey(qrtzJobDetails.getJobName(), qrtzJobDetails.getJobGroup());
 		TriggerKey triggerKey = null;
 		List<? extends Trigger> list = scheduler.getTriggersOfJob(jobKey);
@@ -87,7 +90,7 @@ public class QrtzJobDetailsService extends BaseService<QrtzJobDetailsMapper, Qrt
 	}
 	
 	public Map<String, Object> updateQrtzJobDetails(List<QrtzJobDetails> qrtzJobDetailsList) throws Exception{
-		Map<String, Object> resultMap = new HashMap<>();
+		Map<String, Object> resultMap = new HashMap<>(16);
 
 		return resultMap;
 	}
@@ -111,17 +114,17 @@ public class QrtzJobDetailsService extends BaseService<QrtzJobDetailsMapper, Qrt
 	
 	public Page<QrtzJobDetails> findListByPage(QrtzJobDetails qrtzJobDetails, Page<QrtzJobDetails> page) {
 		page = PageHelper.startPage(page.getPageNum(), page.getPageSize());
-        mapper.selectList(qrtzJobDetails);
+        mapper.select(qrtzJobDetails);
 		return page;
 
 	}
 
 	public List<QrtzJobDetails> findMapList(QrtzJobDetails qrtzJobDetails) {
-		return mapper.selectByExample(qrtzJobDetails);
+		return mapper.select(qrtzJobDetails);
 	}
 	
 	public List<QrtzJobDetails> findList(QrtzJobDetails qrtzJobDetails){
-		return mapper.selectList(qrtzJobDetails);
+		return mapper.selectByExample(qrtzJobDetails);
 	}
 
 	public Integer pauseJob(QrtzJobDetails qrtzJobDetails)

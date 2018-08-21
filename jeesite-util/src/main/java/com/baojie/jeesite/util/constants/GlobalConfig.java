@@ -43,7 +43,7 @@ public class GlobalConfig {
     /**
      * Cookie失效时间
      */
-    public static final Long cookieExpireTime = 60 * 30L;
+    public static final Long COOKIE_EXPIRETIME = 60 * 30L;
 
     /**
      * 系统cookie名称
@@ -53,32 +53,23 @@ public class GlobalConfig {
     /**
      * 注册验证码失效时间 单位：s
      */
-    private static final Long registryCodeExpireTime = 60L;
+    public static final Long REGISTRY_CODE_EXPIRETIME = 60L;
 
     /**
      * 登录失败次数限制
      */
     public static final Integer MAX_LOGIN_ERROE_COUNT = 3;
 
-    public static String DEFAULT_CHART_SET = "UTF-8";
+    public static final String DEFAULT_CHART_SET = "UTF-8";
 
     /**
      * 加盐参数
      */
-    public final static String hashAlgorithmName = "MD5";
+    public final static String HASH_ALGORITHM_NAME = "MD5";
 
     /**
      * 循环次数
      */
-    public final static int hashIterations = 1024;
-
-    public static Long getCookieExpireTime() {
-        return cookieExpireTime;
-    }
-
-    public static Long getRegistryCodeExpireTime() {
-        return registryCodeExpireTime;
-    }
-
+    public final static int HASH_ITERATIONS = 1024;
 
 }

@@ -23,7 +23,8 @@ public class LogFactory {
         operationLog.setClassName(clazzName);
         operationLog.setMethod(methodName);
         operationLog.setAddDate(new Timestamp(System.currentTimeMillis()));
-        operationLog.setSucceed(succeed.getMessage());// TODO
+        // TODO
+        operationLog.setSucceed(succeed.getMessage());
         operationLog.setMessage(msg);
         return operationLog;
     }

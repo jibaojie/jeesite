@@ -11,7 +11,9 @@ import org.springframework.context.ApplicationContext;
 import java.lang.reflect.Method;
 
 /**
- * 将ApplicationContext传入
+ * @author ：冀保杰
+ * @date：2018-08-16
+ * @desc：将ApplicationContext传入，直接操作bean
  */
 public class SpringContextHolder {
 

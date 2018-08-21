@@ -16,7 +16,9 @@ import javax.sql.DataSource;
  */
 
 @Configuration
-//开启事务支持
+/**
+ * 开启事务支持
+ */
 @EnableTransactionManagement
 public class DatabaseConfig {
 

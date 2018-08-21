@@ -13,7 +13,11 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
 
-
+/**
+ * @author ：冀保杰
+ * @date：2018-08-16
+ * @desc：
+ */
 public abstract class BaseService<M extends MyMapper<T>, T> {
 
     protected final Logger logger= LoggerFactory.getLogger(this.getClass());

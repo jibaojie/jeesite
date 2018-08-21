@@ -33,9 +33,6 @@ public class JeeSiteApplication {
         Environment env = applicationContext.getEnvironment();
 
         String protocol = "http";
-        if (env.getProperty("server.ssl.key-store") != null) {
-            protocol = "https";
-        }
         //访问路径
         String contextPath = env.getProperty("server.context-path");
         if (contextPath == null){

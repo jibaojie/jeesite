@@ -74,8 +74,8 @@ public class ShiroConfig {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         defaultWebSecurityManager.setRealm(systemAuthorizingRealm());
 //        defaultWebSecurityManager.setCacheManager(shiroCacheManager());
-
-        SecurityUtils.setSecurityManager(defaultWebSecurityManager);//这个如果执行多次，也是同样的一个对象;
+        //这个如果执行多次，也是同样的一个对象
+        SecurityUtils.setSecurityManager(defaultWebSecurityManager);
 
         defaultWebSecurityManager.setSessionManager(defaultWebSessionManager());
 

@@ -3,6 +3,12 @@ package com.baojie.jeesite.util.mybatis;
 import java.io.Serializable;
 import java.util.List;
 
+
+/**
+ * @author 冀保杰
+ * * @date：2018-08-16
+ * @desc：
+ */
 public class BasePageBean<T> implements Serializable{
 
 	private static final long serialVersionUID = 8470697978259453214L;

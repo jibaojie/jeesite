@@ -58,7 +58,7 @@ public class LoginController {
             VerifyCode verifyCode = iVerifyCodeGen.generate(80, 28);
             String cookieValue = CookieUtils.getCookieValueIfNullThenSetCookie(request, response);
             //保存验证码
-            redisUtil.set(GlobalConfig.VALICATE_CODE_PRE + cookieValue + "_" + GlobalConfig.LOGIN_VALID_CODE, verifyCode.getCode(), GlobalConfig.getRegistryCodeExpireTime());
+            redisUtil.set(GlobalConfig.VALICATE_CODE_PRE + cookieValue + "_" + GlobalConfig.LOGIN_VALID_CODE, verifyCode.getCode(), GlobalConfig.REGISTRY_CODE_EXPIRETIME);
             request.getSession().setAttribute("VerifyCode", verifyCode.getCode());
             response.setHeader("Pragma", "no-cache");
             response.setHeader("Cache-Control", "no-cache");
