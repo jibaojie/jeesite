@@ -1,8 +1,12 @@
 # jeesite
-参考其他项目搭建的一个系统，项目名字随便取的。
 
-    原jeesite4项目：https://github.com/thinkgem/jeesite4
-    mcg-helper项目：https://github.com/mcg-helper/mcg-helper
+参考其他项目搭建的一个系统，项目名字随便取的，仅供自己学习使用的，只做了后端，通过swagger-ui测试，没开发前端。。
+
+参考项目
+-   [jeesite](https://github.com/thinkgem/jeesite)
+-   [guns](https://github.com/abel533/guns)
+-   [abel533](https://github.com/abel533)的开源项目
+-   [mcg-helper](https://github.com/mcg-helper/mcg-helper) 等其他项目
 
 # 模块说明
     mcg-helper: 代码生产模块，启动项目，配置数据源，表等可以直接生产dao,service,controller等代码，可自定义，比较灵活
@@ -12,3 +16,16 @@
     jeesite-job: 定时任务模块，考虑到有些项目可能不会有定时任务，就拿出来了，放在其他模块也一样
     jeesite-login: 登录模块，web模块需要登录可加该项目依赖，统一权限处理
     jeesite-web: 提供api的模块，项目可以有多个web模块，需要权限相关可添加login模块依赖
+    
+ #项目技术
+ 
+-   springboot 2.0.3   
+-   mybatis，通用mapper，分页插件pagehelper
+-   shiro 1.4.0
+-   swagger 2.6.1
+-   quartz 2.3.0
+
+#主要功能
+
+
+ 
