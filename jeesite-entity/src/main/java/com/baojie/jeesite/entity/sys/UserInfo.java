@@ -1,4 +1,4 @@
-package com.baojie.jeesite.entity.user;
+package com.baojie.jeesite.entity.sys;
 
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
@@ -36,6 +36,9 @@ public class UserInfo implements Serializable {
     @Column(name="user_name")
     private String userName;
 
+    @Column(name="org_id")
+    private Integer orgId;
+
     private String telephone;
     
     private String password;
@@ -44,8 +47,24 @@ public class UserInfo implements Serializable {
     
     private Short state;
 
+    /**
+     * 管理员类型
+     * 0：超级管理员，拥有所有权限，1：单位管理员，拥有单位的所有权限
+     */
+    @Column(name="admin_type")
+    private Short adminType;
+
     @Column(name="is_del")
     private Short del;
+
+    @Column(name="add_date")
+    private Timestamp addDate;
+
+    @Column(name="add_user_id")
+    private Integer addUserId;
+
+    @Column(name="add_user_name")
+    private String addUserName;
 
     @Column(name="del_date")
     private Timestamp delDate;

@@ -1,12 +1,11 @@
 package com.baojie.jeesite.login.shiro;
 
-import com.baojie.jeesite.entity.user.UserInfo;
+import com.baojie.jeesite.entity.sys.RoleUser;
+import com.baojie.jeesite.entity.sys.UserInfo;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author ：冀保杰
@@ -18,30 +17,32 @@ public class ShiroUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    public Integer userId;
+    private Integer userId;
 
-    public String account;
+    private String account;
 
-    public String userName;
+    private String userName;
+    /**
+     * 管理员类型
+     * 0：超级管理员，拥有所有权限，1：单位管理员，拥有单位的所有权限
+     */
+    private Short adminType;
 
-    public Integer loginType;
+    private String telephone;
+
+    private Integer loginType;
+
+    private Integer orgId;
 
     private Map<String, Object> cacheMap = new HashMap<>();
 
     /**
      * 角色集
      */
-    public List<Integer> roleList;
+    private List<RoleUser> roleUserList = new ArrayList<>();
 
-    /**
-     * 角色名称集
-     */
-    public List<String> roleNames;
+    private Set<String> permissionSet = new HashSet<>();
 
-    public ShiroUser (){}
+    private Set<String> roleNameSet = new HashSet<>();
 
-    public ShiroUser (UserInfo userInfo){
-        this.userId = userInfo.getUserId();
-        this.userName = userInfo.getUserName();
-    }
 }

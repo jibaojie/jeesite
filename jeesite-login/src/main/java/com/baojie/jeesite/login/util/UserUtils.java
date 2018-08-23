@@ -1,15 +1,25 @@
 package com.baojie.jeesite.login.util;
 
+import com.baojie.jeesite.common.service.RoleModuleService;
+import com.baojie.jeesite.common.service.RoleUserService;
+import com.baojie.jeesite.entity.sys.RoleUser;
+import com.baojie.jeesite.login.shiro.ShiroUser;
 import com.baojie.jeesite.util.constants.GlobalConfig;
 import com.baojie.jeesite.util.redis.RedisUtil;
 import com.baojie.jeesite.util.spring.SpringContextHolder;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
+import org.apache.shiro.authz.Permission;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.authz.permission.WildcardPermission;
 import org.apache.shiro.session.InvalidSessionException;
 import org.apache.shiro.subject.Subject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.constraints.NotBlank;
+import java.util.*;
 
 /**
  * @author ：冀保杰
@@ -22,24 +32,36 @@ public class UserUtils {
     public static final String CACHE_MENU_LIST = "menuList";
     public static final String CACHE_MENU_TREE = "menuTree";
 
-
-
-    /**
-     * 一分钟后登录失败次数删除
-     */
-
-
     /**
      * 不可使用@Autowired
      */
     private static RedisUtil redisUtil = SpringContextHolder.getBean(RedisUtil.class);
+
+    private static RoleUserService roleUserService = SpringContextHolder.getBean(RoleUserService.class);
+
+    private static RoleModuleService roleModuleService = SpringContextHolder.getBean(RoleModuleService.class);
+
+
+    /**
+     * 获取subject
+     */
+    public static Subject getSubject () {
+        return  SecurityUtils.getSubject();
+    }
+
+    /**
+     * 获取ShiroUser
+     */
+    public static ShiroUser getShiroUser () {
+        return (ShiroUser) UserUtils.getSubject().getPrincipals().getPrimaryPrincipal();
+    }
 
     /**
      * 退出
      */
     public static void logout() {
         try {
-            SecurityUtils.getSubject().logout();
+            UserUtils.getSubject().logout();
         } catch (UnavailableSecurityManagerException e) {
             e.printStackTrace();
         } catch (InvalidSessionException e) {
@@ -126,8 +148,35 @@ public class UserUtils {
      * 获取用户菜单权限信息
      * @return
      */
-    public static SimpleAuthorizationInfo getAuthInfo() {
+    public static SimpleAuthorizationInfo getAuthInfo(ShiroUser shiroUser) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+        Set<String> roleNameSet = new HashSet<>();
+        Set<String> permissionSet = new HashSet<>();
+        //用户角色
+        RoleUser roleUser = new RoleUser();
+        roleUser.setUserId(shiroUser.getUserId());
+        List<RoleUser> roleUserList = roleUserService.selectList(roleUser);
+        for (RoleUser roleUser1 : roleUserList) {
+            roleNameSet.add(roleUser1.getRoleId().toString());
+        }
+        //用户权限
+        List<String> roleModuleList = roleModuleService.getMenusByRoleIds(roleNameSet);
+        for (String url : roleModuleList) {
+            if (StringUtils.isNotBlank(url)){
+                permissionSet.add(url);
+            }
+        }
+        info.addStringPermissions(permissionSet);
+        info.addRoles(roleNameSet);
+//        Set<Permission> permissions = new HashSet<Permission>();
+//        Collection<Permission> perms = Collections.emptySet();
+//        perms = new LinkedHashSet<Permission>(permissionSet.size());
+//        for (String strPermission : permissionSet) {
+//            Permission permission = new WildcardPermission(strPermission);
+//            perms.add(permission);
+//        }
+//        permissions.addAll(perms);
+//        info.setObjectPermissions(permissions);
         return info;
     }
 

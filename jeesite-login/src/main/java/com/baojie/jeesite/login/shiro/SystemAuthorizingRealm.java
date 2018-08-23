@@ -1,6 +1,7 @@
 package com.baojie.jeesite.login.shiro;
 
-import com.baojie.jeesite.entity.user.UserInfo;
+import com.baojie.jeesite.entity.sys.RoleUser;
+import com.baojie.jeesite.entity.sys.UserInfo;
 import com.baojie.jeesite.login.exception.CaptchaException;
 import com.baojie.jeesite.login.service.UserLoginService;
 import com.baojie.jeesite.login.util.UserUtils;
@@ -8,6 +9,7 @@ import com.baojie.jeesite.util.constants.GlobalConfig;
 import com.baojie.jeesite.util.exception.BaseException;
 import com.baojie.jeesite.util.http.CookieUtils;
 import com.baojie.jeesite.util.redis.RedisUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -16,6 +18,7 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.credential.CredentialsMatcher;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -26,16 +29,19 @@ import org.apache.shiro.web.util.WebUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author ：冀保杰
  * @date：2018-08-13
  * @desc：
  */
-@Component
+@Service("systemAuthorizingRealm")
 public class SystemAuthorizingRealm extends AuthorizingRealm {
 
     private static final Logger logger = LoggerFactory.getLogger(SystemAuthorizingRealm.class);
@@ -50,10 +56,7 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
     @Autowired
     private RedisUtil redisUtil;
 
-    /**
-     * 设置realm名称
-     * @param name
-     */
+    //设置realm名称
     @Override
     public void setName(String name) {
         super.setName("systemAuthorizingRealm");
@@ -99,9 +102,9 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
         if (userInfo.getState() == 0){
             throw new BaseException("该人员已被禁用！");
         }
-
+        ShiroUser shiroUser = userLoginService.getShiroUser(userInfo, token);
         ByteSource credentialsSalt = new Md5Hash(userInfo.getSalt());
-        return new SimpleAuthenticationInfo(new ShiroUser(userInfo), userInfo.getPassword(), credentialsSalt, this.getName());
+        return new SimpleAuthenticationInfo(shiroUser, userInfo.getPassword(), credentialsSalt, this.getName());
     }
 
     /**
@@ -109,16 +112,13 @@ public class SystemAuthorizingRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        System.out.println("权限配置----------------------");
-//        Principal principal = (Principal) getAvailablePrincipal(principals);
-//        UserInfoEO user = userService.getUserByLoginName(principal.getUserId());
-//        if (user != null) {
-//            UserUtils.flushUserLoginTimeAndIp();
-//            return UserUtils.getAuthInfo();
-//        } else {
-//            return null;
-//        }
-        return null;
+        //此处获取权限，防止修改用户权限之后需要退出登录权限才生效的问题
+        ShiroUser shiroUser = (ShiroUser) principals.getPrimaryPrincipal();
+        if (shiroUser != null){
+            return UserUtils.getAuthInfo(shiroUser);
+        }else {
+            return null;
+        }
     }
     /**
      * 设置认证加密方式

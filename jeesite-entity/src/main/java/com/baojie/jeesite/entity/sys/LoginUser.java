@@ -1,4 +1,4 @@
-package com.baojie.jeesite.entity.system;
+package com.baojie.jeesite.entity.sys;
 
 import lombok.Data;
 

@@ -1,6 +1,6 @@
 package com.baojie.jeesite.login.controller;
 
-import com.baojie.jeesite.entity.system.LoginUser;
+import com.baojie.jeesite.entity.sys.LoginUser;
 import com.baojie.jeesite.login.exception.CaptchaException;
 import com.baojie.jeesite.login.shiro.ShiroUser;
 import com.baojie.jeesite.login.shiro.UsernamePasswordToken;

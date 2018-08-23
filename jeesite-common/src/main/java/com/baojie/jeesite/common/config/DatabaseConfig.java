@@ -1,4 +1,4 @@
-package com.baojie.jeesite.config;
+package com.baojie.jeesite.common.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +15,11 @@ import javax.sql.DataSource;
  * @desc：
  */
 
-//@Configuration
+@Configuration
 /**
  * 开启事务支持
  */
-//@EnableTransactionManagement
+@EnableTransactionManagement
 public class DatabaseConfig {
 
     @Autowired

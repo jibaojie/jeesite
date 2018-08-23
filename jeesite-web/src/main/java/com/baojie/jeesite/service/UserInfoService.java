@@ -2,7 +2,7 @@ package com.baojie.jeesite.service;
 
 
 import com.baojie.jeesite.common.base.BaseService;
-import com.baojie.jeesite.entity.user.UserInfo;
+import com.baojie.jeesite.entity.sys.UserInfo;
 import com.baojie.jeesite.login.dao.UserLoginMapper;
 import org.springframework.stereotype.Service;
 

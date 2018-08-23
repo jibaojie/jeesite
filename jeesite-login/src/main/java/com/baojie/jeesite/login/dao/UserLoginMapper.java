@@ -2,7 +2,7 @@ package com.baojie.jeesite.login.dao;
 
 
 import com.baojie.jeesite.common.base.MyMapper;
-import com.baojie.jeesite.entity.user.UserInfo;
+import com.baojie.jeesite.entity.sys.UserInfo;
 
 /**
  * @author 冀保杰

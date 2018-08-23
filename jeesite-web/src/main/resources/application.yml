@@ -32,15 +32,27 @@ spring:
     host: 127.0.0.1
     port: 6379
     password: 123456
-    timeout: 1000
+#    timeout: 10000
+
+# mybatis配置
+mybatis:
+  type-aliases-package: com.baojie.jeesite.*.entity
+  mapper-locations: classpath:mapper/*.xml
+
+# mybatis 分页插件
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
 
 logging:
   file: logs/jeesite-web.log
   level:
-    org.springframework: debug
+    org.springframework: error
     com.baojie.jeesite: debug
-    org.apache.shiro: error
-    org.quartz: debug
+    org.apache.shiro: trace
+    org.quartz: error
 
 
 

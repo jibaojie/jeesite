@@ -1,14 +1,14 @@
 package com.baojie.jeesite.rest;
 
 import com.baojie.jeesite.common.base.BaseController;
-import com.baojie.jeesite.entity.user.UserInfo;
+import com.baojie.jeesite.entity.sys.UserInfo;
 import com.baojie.jeesite.login.service.UserLoginService;
 import com.baojie.jeesite.util.http.ResponseMessage;
 import com.baojie.jeesite.util.http.Result;
 import com.baojie.jeesite.util.mybatis.BasePageBean;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.poi.ss.formula.functions.T;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -43,6 +43,7 @@ public class UserInfoController extends BaseController<UserLoginService, UserInf
         return baseBiz.updateSelectiveById(userInfo);
     }
 
+    @RequiresPermissions("/userInfo/getById")
     @RequestMapping(value = "getById", method = RequestMethod.GET)
     @ApiOperation(value = "主键查询")
     public ResponseMessage<UserInfo> getById(@RequestParam Integer userId) {
@@ -52,9 +53,10 @@ public class UserInfoController extends BaseController<UserLoginService, UserInf
         return Result.success(baseBiz.selectById(userInfo));
     }
 
+    @RequiresPermissions("/mgr/list")
     @RequestMapping(value = "selectByMap", method = RequestMethod.GET)
     @ApiOperation(value = "分页模糊查询,传入map")
-    public ResponseMessage<BasePageBean<UserInfo>> selectByMap(@RequestParam Map<String, Object> map) {
+    public ResponseMessage<BasePageBean<UserInfo>> selectByMap(@RequestParam(required = false) Map<String, Object> map) {
         return Result.success(baseBiz.selectByMap(map));
     }
 
