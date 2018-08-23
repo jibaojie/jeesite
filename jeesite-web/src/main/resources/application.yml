@@ -51,7 +51,7 @@ logging:
   level:
     org.springframework: error
     com.baojie.jeesite: debug
-    org.apache.shiro: trace
+    org.apache.shiro: error
     org.quartz: error
 
 

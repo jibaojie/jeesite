@@ -50,6 +50,9 @@ public class ShiroConfig {
 //        shiroFilterFactoryBean.setFilters(filterMap);
 
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
+
+        filterChainDefinitionMap.put("/websocket/**", "anon");
+
         //swagger相关不拦截
         filterChainDefinitionMap.put("/webjars/**", "anon");
         filterChainDefinitionMap.put("/swagger-ui.html", "anon");
@@ -60,6 +63,8 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/login/login", "anon");
         //验证码接口
         filterChainDefinitionMap.put("/login/verifyCode", "anon");
+
+
 
         /** user 通过rememberme可以访问
          * authc：该过滤器下的页面必须验证后才能访问
