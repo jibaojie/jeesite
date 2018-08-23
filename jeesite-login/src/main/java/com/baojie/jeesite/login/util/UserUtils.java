@@ -31,6 +31,10 @@ public class UserUtils {
     public static final String CURRENT_USER = "currentUser";
     public static final String CACHE_MENU_LIST = "menuList";
     public static final String CACHE_MENU_TREE = "menuTree";
+    /**  角色 */
+    public static final String PERMISSION_ROLE_NAME_SET = "permission:roleNameSet";
+    /**  资源权限 */
+    public static final String PERMISSION_PERMISSION_SET = "permission:permissionSet";
 
     /**
      * 不可使用@Autowired
@@ -42,23 +46,17 @@ public class UserUtils {
     private static RoleModuleService roleModuleService = SpringContextHolder.getBean(RoleModuleService.class);
 
 
-    /**
-     * 获取subject
-     */
-    public static Subject getSubject () {
-        return  SecurityUtils.getSubject();
+    /** 获取subject */
+    public static Subject getSubject() {
+        return SecurityUtils.getSubject();
     }
 
-    /**
-     * 获取ShiroUser
-     */
-    public static ShiroUser getShiroUser () {
+    /** 获取ShiroUser */
+    public static ShiroUser getShiroUser() {
         return (ShiroUser) UserUtils.getSubject().getPrincipals().getPrimaryPrincipal();
     }
 
-    /**
-     * 退出
-     */
+    /** 退出 */
     public static void logout() {
         try {
             UserUtils.getSubject().logout();
@@ -69,54 +67,21 @@ public class UserUtils {
         }
     }
 
-    /**
-     * 获取当前登录用户ID
-     *
-     */
-    public static int getUserId() {
-        int userId = 0;
+    /** 获取当前登录用户ID */
+    public static Integer getUserId() {
+        Integer userId = null;
         try {
-            Subject subject = SecurityUtils.getSubject();
-//            SystemAuthorizingRealm.Principal principal = (SystemAuthorizingRealm.Principal) subject.getPrincipal();
-//            if (principal != null) {
-//                userId = principal.getUserId();
-//            }
+            ShiroUser shiroUser = getShiroUser();
+            if (shiroUser != null) {
+                userId = shiroUser.getUserId();
+            }
         } catch (UnavailableSecurityManagerException e) {
+            e.printStackTrace();
         } catch (InvalidSessionException e) {
+            e.printStackTrace();
         }
         return userId;
     }
-
-    /**
-     * 获取当前登录用户信息
-     *
-     */
-//    public static UserInfoEO getUser() {
-//        UserInfoEO user = (UserInfoEO) CacheUtils.getCache(CURRENT_USER);
-//        if (user == null) {
-//            int userId = getUserId();
-//            if(userId != 0) {
-//                Map<String, Object> map = redisUtil.get(userId+"");
-////                UserInfoEO userInDb = userService.getUserById(userId);
-//
-//                UserInfoEO userInDb = new UserInfoEO();
-//                userInDb.setOrgId(map.get("OrgID")==null?-1:Integer.parseInt(String.valueOf(map.get("OrgID"))));
-//                userInDb.setOrgName(String.valueOf(map.get("OrgName")));
-//                userInDb.setDeptId(map.get("DeptID")==null?-1:Integer.parseInt(String.valueOf(map.get("DeptID"))));
-//                userInDb.setDepartmentName(String.valueOf(map.get("DeptName")));
-//                userInDb.setDepartId(map.get("DepartID")==null?-1:Integer.parseInt(String.valueOf(map.get("DepartID"))));
-//                userInDb.setDepartName(String.valueOf(map.get("DepartName")));
-//                userInDb.setName(String.valueOf(map.get("Name")));
-//                userInDb.setUserId(map.get("UserID")==null?-1:Integer.parseInt(String.valueOf(map.get("UserID"))));
-//
-//                user = ObjectUtils.clone(userInDb);
-//                user.setPassword(null);
-//
-//                CacheUtils.putCache(CURRENT_USER, user);
-//            }
-//        }
-//        return user;
-//    }
 
 //    public static void updateUserInfo(UserInfoEO userInfoEO) {
 //        UserInfoEO user = (UserInfoEO) CacheUtils.getCache(CURRENT_USER);
@@ -146,37 +111,40 @@ public class UserUtils {
 
     /**
      * 获取用户菜单权限信息
+     *
      * @return
      */
     public static SimpleAuthorizationInfo getAuthInfo(ShiroUser shiroUser) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         Set<String> roleNameSet = new HashSet<>();
         Set<String> permissionSet = new HashSet<>();
-        //用户角色
-        RoleUser roleUser = new RoleUser();
-        roleUser.setUserId(shiroUser.getUserId());
-        List<RoleUser> roleUserList = roleUserService.selectList(roleUser);
-        for (RoleUser roleUser1 : roleUserList) {
-            roleNameSet.add(roleUser1.getRoleId().toString());
+        if (redisUtil.get(PERMISSION_ROLE_NAME_SET) != null){
+            roleNameSet = redisUtil.get(PERMISSION_ROLE_NAME_SET);
+        }else {
+            //用户角色
+            RoleUser roleUser = new RoleUser();
+            roleUser.setUserId(shiroUser.getUserId());
+            List<RoleUser> roleUserList = roleUserService.selectList(roleUser);
+            for (RoleUser roleUser1 : roleUserList) {
+                roleNameSet.add(roleUser1.getRoleId().toString());
+            }
         }
-        //用户权限
-        List<String> roleModuleList = roleModuleService.getMenusByRoleIds(roleNameSet);
-        for (String url : roleModuleList) {
-            if (StringUtils.isNotBlank(url)){
-                permissionSet.add(url);
+        if (redisUtil.get(PERMISSION_PERMISSION_SET) != null){
+            permissionSet = redisUtil.get(PERMISSION_PERMISSION_SET);
+        }else {
+            //用户权限
+            List<String> roleModuleList = roleModuleService.getMenusByRoleIds(roleNameSet);
+            for (String url : roleModuleList) {
+                if (StringUtils.isNotBlank(url)) {
+                    permissionSet.add(url);
+                }
             }
         }
         info.addStringPermissions(permissionSet);
         info.addRoles(roleNameSet);
-//        Set<Permission> permissions = new HashSet<Permission>();
-//        Collection<Permission> perms = Collections.emptySet();
-//        perms = new LinkedHashSet<Permission>(permissionSet.size());
-//        for (String strPermission : permissionSet) {
-//            Permission permission = new WildcardPermission(strPermission);
-//            perms.add(permission);
-//        }
-//        permissions.addAll(perms);
-//        info.setObjectPermissions(permissions);
+        //缓存角色及权限 7天
+        redisUtil.set(PERMISSION_ROLE_NAME_SET, roleNameSet, 60 * 60 * 24 * 7L);
+        redisUtil.set(PERMISSION_PERMISSION_SET, permissionSet, 60 * 60 * 24 * 7L);
         return info;
     }
 

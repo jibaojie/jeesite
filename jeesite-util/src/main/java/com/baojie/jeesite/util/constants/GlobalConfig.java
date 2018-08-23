@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * @author ：冀保杰
  * @date：2018-08-15
- * @desc：系统全局变量设置
+ * @desc：系统全局参数设置
  */
 public class GlobalConfig {
 
