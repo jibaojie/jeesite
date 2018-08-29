@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @date：2018-08-17
  * @desc：
  */
-@Component
+//@Component
 public class SpringJobFactory extends AdaptableJobFactory {
 
     @Autowired

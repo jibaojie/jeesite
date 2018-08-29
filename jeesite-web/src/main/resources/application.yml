@@ -53,11 +53,11 @@ logging:
     org.apache.shiro: debug
     org.quartz: error
 
-
 jeesite:
   spring-session-open: false #是否开启spring session,如果是多机环境需要开启(true/false)
   websocket: false #是否开启websocket
   quartz: false #是否开启定时任务
+  swagger: true #是否启用swagger
 
 
 

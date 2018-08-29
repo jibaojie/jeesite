@@ -14,7 +14,7 @@ import java.util.Properties;
  * @date：2018-08-17
  * @desc：
  */
-@Configuration
+//@Configuration
 public class QuartzConfig {
 
     @Autowired
