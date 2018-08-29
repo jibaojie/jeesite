@@ -1,8 +1,11 @@
 package com.baojie.jeesite.util.http;
 
 import com.baojie.jeesite.util.constants.GlobalConfig;
+import com.baojie.jeesite.util.redis.RedisUtil;
+import com.baojie.jeesite.util.spring.SpringContextHolder;
 import com.baojie.jeesite.util.util.StringUtils;
 import com.baojie.jeesite.util.util.UUID;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +18,8 @@ import java.io.IOException;
  * @desc：
  */
 public class CookieUtils {
+
+    private static RedisUtil redisUtil = SpringContextHolder.getBean(RedisUtil.class);
 
     /**
      * 设置Cookie值，用传入的Cookie Value
@@ -86,10 +91,13 @@ public class CookieUtils {
     public static void removeCookie(HttpServletRequest request, HttpServletResponse response) {
         Cookie cookie = getCookie(request, GlobalConfig.COOKIE_NAME);
         if (cookie != null){
+            //如果redis中保存有session，删除
+            redisUtil.remove(GlobalConfig.DEFAULT_SESSION_KEY_PREFIX + cookie.getValue());
             cookie.setValue(null);
             cookie.setMaxAge(0);
             cookie.setPath("/");
             response.addCookie(cookie);
+
         }
     }
 

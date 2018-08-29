@@ -3,7 +3,6 @@ server:
   servlet:
     context-path: /jeesite/
 
-
 spring:
   application:
     name: jeesite
@@ -51,10 +50,14 @@ logging:
   level:
     org.springframework: error
     com.baojie.jeesite: debug
-    org.apache.shiro: error
+    org.apache.shiro: debug
     org.quartz: error
 
 
+jeesite:
+  spring-session-open: false #是否开启spring session,如果是多机环境需要开启(true/false)
+  websocket: false #是否开启websocket
+  quartz: false #是否开启定时任务
 
 
 

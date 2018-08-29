@@ -10,6 +10,11 @@ import lombok.Data;
 public class GlobalConfig {
 
     /**
+     * redis session保存路径
+     */
+    public static final String DEFAULT_SESSION_KEY_PREFIX = "shiro:session:";
+
+    /**
      * 验证码长度
      */
     public static final int VALICATE_CODE_LENGTH = 4;

@@ -1,8 +1,8 @@
 package com.baojie.jeesite.login.config;
 
-import com.baojie.jeesite.login.shiro.FormAuthenticationFilter;
-import com.baojie.jeesite.login.shiro.RoleAuthorizationFilter;
+import com.baojie.jeesite.login.chache.RedisCacheManager;
 import com.baojie.jeesite.login.shiro.SystemAuthorizingRealm;
+import com.baojie.jeesite.login.shiro.redissession.RedisSessionDAO;
 import com.baojie.jeesite.util.constants.GlobalConfig;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.cache.ehcache.EhCacheManager;
@@ -15,15 +15,12 @@ import org.apache.shiro.web.servlet.Cookie;
 import org.apache.shiro.web.servlet.ShiroHttpSession;
 import org.apache.shiro.web.servlet.SimpleCookie;
 import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.apache.shiro.web.session.mgt.ServletContainerSessionManager;
 import org.springframework.beans.factory.config.MethodInvokingFactoryBean;
-import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.core.io.ClassPathResource;
 
-import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -82,7 +79,6 @@ public class ShiroConfig {
     public SecurityManager securityManager() {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         defaultWebSecurityManager.setRealm(systemAuthorizingRealm());
-//        defaultWebSecurityManager.setCacheManager(shiroCacheManager());
         //这个如果执行多次，也是同样的一个对象
         SecurityUtils.setSecurityManager(defaultWebSecurityManager);
 
@@ -99,8 +95,10 @@ public class ShiroConfig {
     @Bean(name = "sessionManager")
     public DefaultWebSessionManager defaultWebSessionManager() {
         DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
-        //sessionManager.setSessionDAO(new CustomSessionDAO());
-//        sessionManager.setCacheManager(shiroCacheManager());
+        //使用redis管理session
+//        sessionManager.setSessionDAO(getRedisSessionDao());
+        //不使用缓存
+//        sessionManager.setCacheManager(cacheManager());
         //隔多久检查一次session的有效性
         sessionManager.setSessionValidationInterval(GlobalConfig.SESSION_VALIDATION_INTERVAL);
         //全局的会话信息 session超时
@@ -118,6 +116,16 @@ public class ShiroConfig {
         return sessionManager;
     }
 
+    @Bean(name = "redisCacheManager")
+    public RedisCacheManager redisCacheManager() {
+        return new RedisCacheManager();
+    }
+
+    @Bean
+    public RedisSessionDAO getRedisSessionDao(){
+        return  new RedisSessionDAO();
+    }
+
     /**
      * 在方法中 注入 securityManager,进行代理控制
      */
@@ -128,22 +136,6 @@ public class ShiroConfig {
         bean.setArguments(new Object[]{securityManager()});
         return bean;
     }
-
-//    @Bean(name = "shiroCacheManager")
-//    @DependsOn({"ehCacheManagerFactoryBean"})
-//    public EhCacheManager shiroCacheManager() {
-//        EhCacheManager ehCacheManager = new EhCacheManager();
-//        ehCacheManager.setCacheManager(ehCacheManagerFactoryBean().getObject());
-//        return ehCacheManager;
-//    }
-
-//    @Bean(name = "ehCacheManagerFactoryBean")
-//    public EhCacheManagerFactoryBean ehCacheManagerFactoryBean() {
-//        EhCacheManagerFactoryBean ehCacheManagerFactoryBean = new EhCacheManagerFactoryBean();
-//        ClassPathResource classPathResource = new ClassPathResource("cache/ehcache-local.xml");
-//        ehCacheManagerFactoryBean.setConfigLocation(classPathResource);
-//        return ehCacheManagerFactoryBean;
-//    }
 
     /**
      * 保证实现了Shiro内部lifecycle函数的bean执行
