@@ -40,7 +40,7 @@
 			<artifactId>jeesite-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
+        
         <!-- 不使用定时任务 -->
 		<!--<dependency>
 			<groupId>com.baojie</groupId>
