@@ -1,0 +1,35 @@
+# 微信配置文件
+wx:
+  mp:
+    configs:
+    - appId: 1111
+      secret: 1111
+      token: 111
+      aesKey: 111
+    - appId: 2222
+      secret: 1111
+      token: 111
+      aesKey: 111
+  cp:
+    corpId: 111
+    appConfigs:
+    - agentId: 1000001
+      secret: 1111
+      token: 111
+      aesKey: 111
+    - agentId: 1000002
+      secret: 1111
+      token: 111
+      aesKey: 111
+  pay:
+    appId: 444
+    mchId: 444
+    mchKey: 444
+    subAppId: 4444
+    subMchId: 4444
+    keyPath: 444
+
+
+
+
+
