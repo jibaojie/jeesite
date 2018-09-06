@@ -40,6 +40,12 @@
 			<artifactId>jeesite-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.baojie</groupId>
+			<artifactId>jeesite-weixin</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
         
         <!-- 不使用定时任务 -->
 		<!--<dependency>

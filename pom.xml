@@ -25,6 +25,7 @@
         <module>jeesite-login</module>
         <module>jeesite-web</module>
         <module>jeesite-common</module>
+        <module>jeesite-weixin</module>
     </modules>
 
 	<properties>
@@ -43,7 +44,7 @@
         <shiro.version>1.4.0-RC2</shiro.version>
         <quartz.version>2.3.0</quartz.version>
         <ehcache.version>3.3.1</ehcache.version>
-        <binarywang.version>3.1.0</binarywang.version>
+        <binarywang.version>3.1.7.BETA</binarywang.version>
 	</properties>
 
 

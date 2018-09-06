@@ -21,7 +21,7 @@ import java.net.UnknownHostException;
  */
 
 @MapperScan(basePackages = "com.baojie.jeesite.*.dao")
-@ComponentScan("com.baojie.jeesite")
+//@ComponentScan("com.baojie.jeesite")
 @SpringBootApplication(exclude = DataSourceAutoConfiguration.class)
 public class JeeSiteApplication {
 
@@ -31,7 +31,6 @@ public class JeeSiteApplication {
         ApplicationContext applicationContext = SpringApplication.run(JeeSiteApplication.class, args);
         SpringContextHolder.setApplicationContext(applicationContext);
         Environment env = applicationContext.getEnvironment();
-
         String protocol = "http";
         //访问路径
         String contextPath = env.getProperty("server.context-path");
